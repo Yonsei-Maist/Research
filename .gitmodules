@@ -1,0 +1,3 @@
+[submodule "systematic-review-automation"]
+	path = systematic-review-automation
+	url = https://github.com/Yonsei-Maist/systematic-review-automation.git
