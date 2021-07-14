@@ -1,0 +1,93 @@
+spring:
+  jwt:
+    secret: yonsei-maist
+
+server:
+---
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:mysql://database-maist.cokhivvhpkbq.ap-northeast-2.rds.amazonaws.com:3306/maist?characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: maist2020
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    mode: HTML
+    cache: false
+    template-resolver-order: 0
+  servlet:
+    multipart:
+      max-file-size: 10MB
+module:
+  azure:
+    key: "4f3324b0c3c84d04be7c4c5f82fb4823"
+    endpoint: "https://westus.api.cognitive.microsoft.com"
+    recognition:
+      profile-uri: "/speaker/identification/v2.0/text-independent/profiles"
+logging:
+  pattern:
+    console: "%d %-5level %logger{30}:%line - %msg%n"
+  level:
+    org.hibernate.type: trace
+server:
+  port: 8443
+  http:
+    port: 9090
+  ssl:
+    enabled: true
+    key-store: /usr/local/cert/maist.yonsei.ac.kr_20210405N3T6.jks
+    key-store-password: 437o9f
+    key-password: 437o9f
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://database-maist.cokhivvhpkbq.ap-northeast-2.rds.amazonaws.com:3306/maist?characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: maist2020
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    mode: HTML
+    cache: false
+    template-resolver-order: 0
+  servlet:
+    multipart:
+      max-file-size: 10MB
+module:
+  azure:
+    key: "4f3324b0c3c84d04be7c4c5f82fb4823"
+    endpoint: "https://westus.api.cognitive.microsoft.com"
+    recognition:
+      profile-uri: "/speaker/identification/v2.0/text-independent/profiles"
+logging:
+  pattern:
+    console: "%d %-5level %logger{30}:%line - %msg%n"
+  level:
+    org.hibernate.type: debug
+server:
+  port: 8443
+  http:
+    port: 9090
+  ssl:
+    enabled: true
+    key-store: /usr/local/cert/maist.yonsei.ac.kr_20210405N3T6.jks
+    key-store-password: 437o9f
+    key-password: 437o9f
