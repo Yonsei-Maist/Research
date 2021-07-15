@@ -5,7 +5,6 @@
  */
 package kr.ac.yonsei.maist.domain.user.service;
 
-import kr.ac.yonsei.maist.domain.machine.dto.MachineUploadRequestDto;
 import kr.ac.yonsei.maist.domain.user.dao.UserPublicRepository;
 import kr.ac.yonsei.maist.domain.user.dao.UserQueryFactory;
 import kr.ac.yonsei.maist.domain.user.dao.UserPrivateRepository;
@@ -43,57 +42,18 @@ public class UserService {
     }
 
     /**
-     * Create a user.
-     * @param dto user information
-     */
-    @Transactional
-    public int createUser(MachineUploadRequestDto.User dto) throws Exception {
-        UserPrivate user = userPrivateRepository.save(dto.toEntity());
-
-        return user.getUserId();
-    }
-
-    /**
      * Update user information.
      * @param id machine id
-     * @param name user name
      * @param dto user information
      */
     @Transactional
-    public void updateUser(String id, String name, UserUpdateRequestDto dto) throws Exception {
-        UserPrivate entity = userQueryFactory.findUserByIdAndUserName(id, name);
+    public void updateUser(String id, UserUpdateRequestDto dto) throws Exception {
+        UserPrivate entity = userQueryFactory.findUserById(id);
         if(entity == null) {
-            throw new IllegalArgumentException("id="+id+" name="+name);
+            throw new IllegalArgumentException("id="+id);
         }
 
         entity.update(dto);
-    }
-
-    /**
-     * Update profile ID.
-     * @param userId User ID
-     * @param profileId Profile ID
-     */
-    @Transactional
-    public void updateProfileId(int userId, String profileId) throws Exception {
-        UserPublic entity = userPublicRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("id="+userId));
-
-        entity.updateProfileId(profileId);
-    }
-
-    /**
-     * Find user-machine relationship using user id and machine id.
-     * @param id machine id
-     * @param name user name
-     * @return user-machine relationship
-     */
-    public UserPrivate findUserByIdAndUserName(String id, String name) throws Exception {
-        UserPrivate entity = userQueryFactory.findUserByIdAndUserName(id, name);
-        if(entity == null) {
-            throw new IllegalArgumentException("id="+id+" name="+name);
-        }
-        return entity;
     }
 
     /**
@@ -118,18 +78,6 @@ public class UserService {
         List<UserResponseDto> user = userQueryFactory.findUserByUserId(userId);
 
         return user;
-    }
-
-    /**
-     * Gets a list of users connected by machine ID.
-     * @param machineId NX machine id
-     * @return user list
-     */
-    @Transactional
-    public List<UserListResponseDto> findUserByMachineId(String machineId) throws Exception {
-        List<UserListResponseDto> userList = userQueryFactory.findUserByMachineId(machineId);
-
-        return userList;
     }
 
     /**
@@ -200,12 +148,5 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("id="+userId));
 
         entity.updatePassword(dto);
-    }
-
-    @Transactional
-    public UserResponseDto findUserByMachineIdAndName(String machineId, String name) {
-        UserResponseDto user = userQueryFactory.findUserByMachineIdAndName(machineId, name);
-
-        return user;
     }
 }

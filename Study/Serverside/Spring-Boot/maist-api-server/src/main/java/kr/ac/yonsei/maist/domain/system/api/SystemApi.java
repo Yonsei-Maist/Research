@@ -12,7 +12,6 @@ import kr.ac.yonsei.maist.global.response.dataMessage.DownloadDataMessage;
 import kr.ac.yonsei.maist.global.response.dataMessage.PagingDataMessage;
 import kr.ac.yonsei.maist.domain.language.dto.LanguageListResponseDto;
 import kr.ac.yonsei.maist.domain.language.service.LanguageService;
-import kr.ac.yonsei.maist.domain.machine.service.MachineService;
 import kr.ac.yonsei.maist.domain.system.dto.*;
 import kr.ac.yonsei.maist.domain.system.service.SystemService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,6 @@ import java.util.List;
 public class SystemApi {
 
     private final SystemService systemService;
-    private final MachineService machineService;
     private final LanguageService languageService;
 
     /**
@@ -159,46 +157,5 @@ public class SystemApi {
         systemService.deleteSystemCode(sysCodeId);
 
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
-    }
-
-    @GetMapping(value="/maist/download/system/necessity")
-    public ResponseEntity<GeneralDataMessage> findSystemDownloadNecessity(@Valid @RequestParam(value="downloadDate") String downloadDate) throws Exception {
-
-        int systemRecordCount = systemService.countSystemByEditDateAfter(downloadDate);
-        int langRecordCount = languageService.countLanguageByEditDateAfter(downloadDate);
-        Boolean isNeededDownload = false;
-
-        if(systemRecordCount+langRecordCount > 0) {
-            isNeededDownload = true;
-        }
-
-        HashMap<String, Object> responseData = new HashMap<>();
-        responseData.put("isNeededDownload", isNeededDownload);
-
-        GeneralDataMessage responseMessage = GeneralDataMessage.builder()
-                .data(responseData)
-                .build();
-
-        return new ResponseEntity<GeneralDataMessage>(responseMessage, HttpStatus.OK);
-    }
-
-    @GetMapping(value="/maist/download/system")
-    public ResponseEntity<DownloadDataMessage> downloadSystemData(
-            @RequestParam(value="id") String machineId,
-            @RequestParam(value="downloadDate") String downloadDate) throws Exception {
-
-        int systemRecordCount = systemService.countSystemByEditDateAfter(downloadDate);
-        int langRecordCount = languageService.countLanguageByEditDateAfter(downloadDate);
-        List<SystemListResponseDto> systemCodeList = systemService.findSystemByEditDateAfter(downloadDate);
-        List<LanguageListResponseDto> languageList = languageService.findLanguageByEditDateAfter(downloadDate);
-        String currentDownloadDate = machineService.updateSysCodeDownloadDate(machineId);
-
-        DownloadDataMessage responseMessage = DownloadDataMessage.builder()
-                .downloadDate(currentDownloadDate)
-                .totalElements(systemRecordCount+langRecordCount)
-                .data(new SystemDownloadResponseDto(systemCodeList, languageList))
-                .build();
-
-        return new ResponseEntity<DownloadDataMessage>(responseMessage, HttpStatus.OK);
     }
 }

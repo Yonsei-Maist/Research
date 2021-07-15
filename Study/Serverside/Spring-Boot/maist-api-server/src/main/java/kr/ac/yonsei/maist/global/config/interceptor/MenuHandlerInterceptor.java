@@ -61,7 +61,7 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
             boolean res = mat.find();
 
             if (!res)
-                return res;
+                return false;
 
             int menuMethodId = Integer.parseInt(mat.group());
             String menuPath = menu.getPath();
@@ -110,7 +110,6 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         String token = jwtTokenProvider.resolveToken(request);
         UserInformationDto userDto = jwtTokenProvider.getUser(token);
 
@@ -120,6 +119,6 @@ public class MenuHandlerInterceptor implements HandlerInterceptor {
             throw new UnauthorizedException();
         }
 
-        return res;
+        return true;
     }
 }

@@ -39,44 +39,25 @@ public class JwtTokenProvider {
      * @param language system code
      * @return String Token
      */
-/*    public String createToken(UserInformationDto userInformationDto, int language, boolean unlimit) {
+    public String createToken(UserInformationDto userInformationDto, int language) {
         Gson gson = new Gson();
         String jsonString = gson.toJson(userInformationDto);
-        if (!unlimit)
-            return createToken(jsonString, language);
-        else
-            return createGuestToken(jsonString, language);
-    }*/
+        return createToken(jsonString, language);
+    }
 
     /**
      * Create a token.
      * Issue a token with data, issue date, and expiration time.
-     * @param userName user name
+     * @param userJson user information (json)
      * @return String Token
      */
-    public String createToken(String userName) {
+    public String createToken(String userJson, int language) {
         Date issueDate = new Date();
         return Jwts.builder()
-                .setAudience(userName) // 토큰 대상자
+                .claim("language", language)
+                .setAudience(userJson) // 토큰 대상자
                 .setIssuedAt(issueDate) // 발행 날짜
                 .setExpiration(new Date(issueDate.getTime() + tokenValidMilisecond)) // 만료 시간
-                .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret 값 세팅
-                .compact();
-    }
-
-    /**
-     * Create a guest token.
-     * Issue a token with data, issue date.
-     * @param jsonInfo guest id
-     * @param language system code
-     * @return String Token
-     */
-    public String createGuestToken(String jsonInfo, int language) {
-        Date issueDate = new Date();
-        return Jwts.builder()
-                .claim("language", language) // 데이터-언어
-                .setAudience(jsonInfo) // 토큰 대상자
-                .setIssuedAt(issueDate) // 발행 날짜
                 .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret 값 세팅
                 .compact();
     }
@@ -89,10 +70,12 @@ public class JwtTokenProvider {
     public String reissueToken(String token) {
         try {
             String userId = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getAudience();
-            return createToken(userId);
+            int language = (int)Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("language");
+            return createToken(userId, language);
         } catch (ExpiredJwtException e) {
             String userId = e.getClaims().getAudience(); // 기간 만료 토큰 예외
-            return createToken(userId);
+            int language = (int)e.getClaims().get("language");
+            return createToken(userId, language);
         } catch (UnsupportedJwtException | MalformedJwtException |SignatureException e) {
             throw new UnauthorizedException(); // 토큰 형식, 서명 예외
         }
@@ -105,7 +88,7 @@ public class JwtTokenProvider {
      */
     public UserInformationDto getUser(String token) {
         try {
-        String json = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getAudience();
+            String json = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getAudience();
             Gson gson = new Gson();
             return gson.fromJson(json, UserInformationDto.class);
         } catch (IllegalArgumentException e) {

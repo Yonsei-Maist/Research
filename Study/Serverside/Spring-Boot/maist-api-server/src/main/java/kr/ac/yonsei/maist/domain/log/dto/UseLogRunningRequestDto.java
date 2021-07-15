@@ -11,13 +11,5 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class UseLogRunningRequestDto {
     @NotEmpty
-    private String userName;
-    @NotEmpty
-    private String machineId;
-    @Min(1900)@Max(3000)
-    private Integer dateYear;
-    @Min(1)@Max(12)
-    private Integer dateMonth;
-    @Min(1)@Max(6)
-    private Integer weekOfMonth;
+    private String userId;
 }

@@ -5,6 +5,7 @@
  */
 package kr.ac.yonsei.maist.domain.user.api;
 
+import kr.ac.yonsei.maist.domain.menu.dto.MenuDto;
 import kr.ac.yonsei.maist.global.response.dataMessage.GeneralDataMessage;
 import kr.ac.yonsei.maist.global.response.ResponseMessage;
 import kr.ac.yonsei.maist.global.config.security.JwtTokenProvider;
@@ -38,7 +39,9 @@ public class UserApi {
     public ResponseEntity<GeneralDataMessage> login(@Valid @RequestBody LoginRequestDto dto) throws Exception {
         UserPrivate user = userService.findByIdAndPassword(dto.getId(), dto.getPassword()); // 유효성 확인
 
-          String token = jwtTokenProvider.createToken(user.getName()); // 토큰 발행
+        List<MenuDto> menuList = menuService.findById(user.getLevel());
+        UserInformationDto dtoUser = new UserInformationDto(user.getUserId(), user.getName(), menuList);
+        String token = jwtTokenProvider.createToken(dtoUser, dto.getLanguage()); // 토큰 발행
 
         GeneralDataMessage responseMessage = GeneralDataMessage.builder()
                 .data(new LoginResponseDto(token))
@@ -48,7 +51,7 @@ public class UserApi {
     }
 
     /**
-     * Create users on the web and create relationships between users and machines.
+     * Create users on the web
      * @param dto user information
      * @return ResponseEntity<ResponseMessage> success or fail
      */
@@ -62,17 +65,15 @@ public class UserApi {
 
     /**
      * Update user information.
-     * @param id machine id
-     * @param name user name
+     * @param id user login id
      * @param dto user information
      * @return ResponseEntity<ResponseMessage>
      */
     @PutMapping("/maist/users/{id}/{name}")
     public ResponseEntity<ResponseMessage> updateUser(@PathVariable String id,
-                                                      @PathVariable String name,
                                                       @Valid @RequestBody UserUpdateRequestDto dto) throws Exception {
 
-        userService.updateUser(id, name, dto);
+        userService.updateUser(id, dto);
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
     }
 
@@ -89,22 +90,6 @@ public class UserApi {
 
         GeneralDataMessage responseMessage = GeneralDataMessage.builder()
                 .data(user.get(0))
-                .build();
-
-        return new ResponseEntity<GeneralDataMessage>(responseMessage, HttpStatus.OK);
-    }
-
-    /**
-     * Gets a list of users connected by machine ID.
-     * @param machineId NX machine id
-     * @return user list
-     */
-    @GetMapping("/maist/users/machines/{machineId}")
-    public ResponseEntity<GeneralDataMessage> findUserByMachineId(@PathVariable String machineId) throws Exception {
-        List<UserListResponseDto> userList = userService.findUserByMachineId(machineId);
-
-        GeneralDataMessage responseMessage = GeneralDataMessage.builder()
-                .data(userList)
                 .build();
 
         return new ResponseEntity<GeneralDataMessage>(responseMessage, HttpStatus.OK);
@@ -156,18 +141,6 @@ public class UserApi {
                 .build();
 
         return new ResponseEntity<GeneralDataMessage>(responseMessage, HttpStatus.OK);
-    }
-
-    /**
-     * User creation on the web.
-     * @param dto SignUpRequestDto
-     * @return ResponseEntity<ResponseMessage>
-     */
-    @PostMapping("/maist/users/web")
-    public ResponseEntity<ResponseMessage> signUpWeb(@Valid @RequestBody SignUpRequestDto dto) throws Exception {
-
-        userService.save(dto);
-        return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
     }
 
     /**

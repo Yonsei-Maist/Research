@@ -9,8 +9,6 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class UseLogDateListRequestDto {
     @NotEmpty
-    private String userName;
-    @NotEmpty
-    private String machineId;
+    private String userId;
     private int languageCode;
 }

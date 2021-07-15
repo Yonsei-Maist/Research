@@ -21,9 +21,8 @@ public class UserCreateRequestDto {
     @Min(110)
     @Max(120)
     private int sex;
-    @Min(810)
-    @Max(890)
-    private int age;
+
+    private String birth;
     @Min(710)
     @Max(790)
     private int height;
@@ -32,8 +31,7 @@ public class UserCreateRequestDto {
         return UserPrivate.builder()
                 .name(name)
                 .sex(sex)
-                .age(age)
-                .height(height)
+                .birth(birth)
                 .build();
     }
 }

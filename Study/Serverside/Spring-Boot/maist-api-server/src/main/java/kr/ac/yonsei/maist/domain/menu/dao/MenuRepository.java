@@ -5,8 +5,8 @@
  */
 package kr.ac.yonsei.maist.domain.menu.dao;
 
-import kr.ac.yonsei.maist.domain.reservation.domain.Reservation;
+import kr.ac.yonsei.maist.domain.menu.domain.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MenuRepository extends JpaRepository<Reservation, Integer> {
+public interface MenuRepository extends JpaRepository<Menu, Integer> {
 }

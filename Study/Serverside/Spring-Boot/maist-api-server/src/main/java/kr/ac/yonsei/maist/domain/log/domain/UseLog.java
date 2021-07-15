@@ -41,37 +41,19 @@ public class UseLog {
     @Column(name = "var_ip")
     private String ip;
 
-    @Column(name = "int_running_time")
-    private Integer runningTime;
-
-    @Column(name = "int_internal_temperature")
-    private Integer internalTemperature;
-
-    @Column(name = "int_external_temperature")
-    private Integer externalTemperature;
-
-    @Column(name = "int_intensity_low_frequency_pad")
-    private Integer intnsLowFreqPad;
-
     @Builder
     public UseLog(int userId,
                   int sysFunc,
                   String logDate,
                   String content,
-                  Integer runningTime,
-                  Integer internalTemperature,
-                  Integer externalTemperature,
-                  Integer intnsLowFreqPad,
+                  String menuId,
                   String ip) {
 
         this.userId = userId;
         this.sysFunc = sysFunc;
         this.logDate = logDate;
         this.content = content;
-        this.runningTime = runningTime;
-        this.internalTemperature = internalTemperature;
-        this.externalTemperature = externalTemperature;
-        this.intnsLowFreqPad = intnsLowFreqPad;
+        this.menuId = menuId;
         this.ip = ip;
     }
 

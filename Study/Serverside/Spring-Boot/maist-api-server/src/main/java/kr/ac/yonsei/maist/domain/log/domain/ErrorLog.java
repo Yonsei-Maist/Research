@@ -35,10 +35,10 @@ public class ErrorLog {
     private String menuId;
 
     @Column(name = "var_ip")
-    private Integer ip;
+    private String ip;
 
     @Builder
-    public ErrorLog(int userId, Integer sysError, String logDate, String content, String menuId, int ip) {
+    public ErrorLog(int logId, int userId, Integer sysError, String logDate, String content, String menuId, String ip) {
         this.logId = logId;
         this.userId = userId;
         this.errorCode = sysError;

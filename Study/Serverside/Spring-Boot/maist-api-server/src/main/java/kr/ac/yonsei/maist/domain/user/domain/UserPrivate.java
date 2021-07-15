@@ -22,6 +22,9 @@ public class UserPrivate {
     @Column(name = "id_user")
     private int userId;
 
+    @Column(name = "var_login_id")
+    private String loginId;
+
     @Column(name = "enc_pwd")
     @ColumnTransformer(
             write = "passwordHash(?)")
@@ -33,11 +36,8 @@ public class UserPrivate {
     @Column(name = "sys_sex")
     private Integer sex; //110(male) or 120(female)
 
-    @Column(name = "sys_age")
-    private Integer age; //810 ~ 890
-
-    @Column(name = "sys_height")
-    private Integer height; //710 ~ 790
+    @Column(name = "date_birth")
+    private String birth;
 
     @Column(name = "date_create")
     private String createDate;
@@ -48,29 +48,21 @@ public class UserPrivate {
     @Column(name = "sys_level")
     private Integer level;
 
-    @Column(name = "id_profile")
-    private String profileId;
-
     @Builder
     public UserPrivate(String password,
                        String name,
                        int sex,
-                       int age,
-                       int height,
-                       String profileId) {
+                       String birth) {
         this.password = password;
         this.name = name;
         this.sex = sex;
-        this.age = age;
-        this.height = height;
-        this.profileId = profileId;
+        this.birth = birth;
     }
 
     public void update(UserUpdateRequestDto dto) {
         this.name = dto.getName();
         this.sex = dto.getSex();
-        this.age = dto.getAge();
-        this.height = dto.getHeight();
+        this.birth = dto.getBirth();
     }
 
     public void updatePassword(UserPwdUpdateRequestDto dto) {

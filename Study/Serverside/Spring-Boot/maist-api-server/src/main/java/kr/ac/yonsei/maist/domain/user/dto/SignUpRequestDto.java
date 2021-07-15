@@ -21,20 +21,14 @@ public class SignUpRequestDto {
     @Min(110)
     @Max(120)
     private int sex;
-    @Min(810)
-    @Max(890)
-    private int age;
-    @Min(710)
-    @Max(790)
-    private int height;
+    private String birth;
 
     public UserPrivate toEntity() {
         return UserPrivate.builder()
              /*   .password(password)*/
                 .name(name)
                 .sex(sex)
-                .age(age)
-                .height(height)
+                .birth(birth)
                 .build();
     }
 }

@@ -20,8 +20,8 @@ public class UserPublic {
     @Column(name = "id_user")
     private int userId;
 
-    @Column(name = "id_profile")
-    private String profileId;
+    @Column(name = "var_login_id")
+    private String loginId;
 
     @Column(name = "var_name")
     private String name;
@@ -29,14 +29,6 @@ public class UserPublic {
     @Column(name = "sys_sex")
     private Integer sex; //110(male) or 120(female)
 
-    @Column(name = "sys_age")
-    private Integer age; //810 ~ 890
-
-    @Column(name = "sys_height")
-    private Integer height; //710 ~ 790
-
-
-    public void updateProfileId(String profileId) {
-        this.profileId = profileId;
-    }
+    @Column(name = "date_birth")
+    private Integer birth; //810 ~ 890
 }

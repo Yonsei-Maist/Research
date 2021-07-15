@@ -10,23 +10,17 @@ public class UseLogListResponseDto {
 
     private int logId;
     private int userId;
-    private Integer sysFunc;
+    private String menuId;
     private String content;
     private String logDate;
-    private Integer runningTime;
-    private Integer internalTemperature;
-    private Integer externalTemperature;
-    private Integer intnsLowFreqPad;
+    private String ip;
 
     public UseLogListResponseDto(UseLog entity) {
         this.logId = entity.getLogId();
         this.userId = entity.getUserId();
-        this.sysFunc = entity.getSysFunc();
+        this.menuId = entity.getMenuId();
         this.content = entity.getContent();
-        this.logDate = entity.getContent();
-        this.runningTime = entity.getRunningTime();
-        this.internalTemperature = entity.getInternalTemperature();
-        this.externalTemperature = entity.getExternalTemperature();
-        this.intnsLowFreqPad = entity.getIntnsLowFreqPad();
+        this.logDate = entity.getLogDate();
+        this.ip = entity.getIp();
     }
 }

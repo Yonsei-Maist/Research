@@ -6,7 +6,7 @@ import kr.ac.yonsei.maist.domain.log.dao.UseLogRepository;
 import kr.ac.yonsei.maist.domain.log.domain.ErrorLog;
 import kr.ac.yonsei.maist.domain.log.domain.UseLog;
 import kr.ac.yonsei.maist.domain.log.dto.*;
-import kr.ac.yonsei.maist.domain.machine.dto.MachineUploadRequestDto;
+import kr.ac.yonsei.maist.domain.user.dto.UserInformationDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,44 +53,18 @@ public class LogService {
     }
 
     @Transactional
-    public UseLog createUseLog(MachineUploadRequestDto.UseLog dto) throws Exception {
-
-        UseLog useLog = useLogRepository.save(dto.toEntity());
-
-        return useLog;
-    }
-
-    @Transactional
-    public UseLog createUseLog(UseLogRequestDto dto) throws Exception {
-
-        UseLog useLog = useLogRepository.save(dto.toEntity());
+    public UseLog createUseLog(String menuID, UserInformationDto dto, String ip, String content) throws Exception {
+        UseLog log = UseLog.builder().menuId(menuID).userId(dto.getUserId()).ip(ip).content(content).build();
+        UseLog useLog = useLogRepository.save(log);
 
         return useLog;
     }
 
     @Transactional
-    public ErrorLog createErrorLog(MachineUploadRequestDto.ErrorLog dto) throws Exception {
-
-        ErrorLog errorLog = errorLogRepository.save(dto.toEntity());
+    public ErrorLog createErrorLog(String menuID, UserInformationDto dto, String ip, String content) throws Exception {
+        ErrorLog log = ErrorLog.builder().menuId(menuID).userId(dto.getUserId()).ip(ip).content(content).build();
+        ErrorLog errorLog = errorLogRepository.save(log);
 
         return errorLog;
-    }
-
-    @Transactional
-    public List<UseLogDateListResponseDto> findDateList(UseLogDateListRequestDto dto) throws Exception {
-        List<UseLogDateListResponseDto> listResponseDtos = useLogFactory.findDateList(dto);
-
-        return listResponseDtos;
-    }
-
-    @Transactional
-    public UseLogRunningResponseDto findLogByWeekOfYear(UseLogRunningRequestDto dto) throws Exception {
-        UseLogRunningResponseDto responseDto = new UseLogRunningResponseDto();
-        responseDto.setLogList(useLogFactory.findAllLogData(dto));
-        responseDto.setSumByWeekOfYearListByMode(useLogFactory.findSumLogDataByMode(dto));
-        responseDto.setSumByWeekOfYearListByTime(useLogFactory.findSumLogDataByTime(dto));
-        responseDto.setTotalRunningTime(useLogFactory.findTotalLogData(dto));
-
-        return responseDto;
     }
 }
