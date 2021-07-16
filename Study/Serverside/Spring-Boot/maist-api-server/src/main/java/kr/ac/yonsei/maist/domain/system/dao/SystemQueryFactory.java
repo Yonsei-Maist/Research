@@ -98,9 +98,8 @@ public class SystemQueryFactory {
     public List<SystemResponseDto> findAllBySystemDomain(String domain, String depth1, String depth2, String depth3) {
         return queryFactory.select(Projections.fields(SystemResponseDto.class,
                 system.sysCodeId.as("id"),
-                system.name.as("name"),
+                system.description.as("description"),
                 system.domain.as("domain"),
-                system.content.as("content"),
                 system.depth1.as("depth1"),
                 system.depth2.as("depth2"),
                 system.depth3.as("depth3")
@@ -122,9 +121,8 @@ public class SystemQueryFactory {
     public List<SystemResponseDto> findAllBySystemDomainWithLanguage(String domain, int languageCode, String depth1, String depth2, String depth3) {
         return queryFactory.select(Projections.fields(SystemResponseDto.class,
                 system.sysCodeId.as("id"),
-                system.name.as("name"),
                 system.domain.as("domain"),
-                language.content.as("content"),
+                language.content.as("description"),
                 system.depth1.as("depth1"),
                 system.depth2.as("depth2"),
                 system.depth3.as("depth3")
@@ -142,9 +140,8 @@ public class SystemQueryFactory {
     public List<SystemResponseDto> findAllDomain() {
         return queryFactory.select(Projections.fields(SystemResponseDto.class,
                 system.sysCodeId.as("id"),
-                system.name.as("name"),
                 system.domain.as("domain"),
-                system.content.as("content"),
+                system.description.as("description"),
                 system.depth1.as("depth1"),
                 system.depth2.as("depth2"),
                 system.depth3.as("depth3")

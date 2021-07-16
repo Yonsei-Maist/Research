@@ -16,9 +16,7 @@ public class SystemCreateRequestDto {
     @NotEmpty
     private String domain;
     @NotEmpty
-    private String name;
-    @NotEmpty
-    private String content;
+    private String description;
     private int depth1;
     private int depth2;
     private int depth3;
@@ -27,8 +25,7 @@ public class SystemCreateRequestDto {
         return System.builder()
                 .sysCodeId(sysCodeId)
                 .domain(domain)
-                .name(name)
-                .content(content)
+                .description(description)
                 .depth1(depth1)
                 .depth2(depth2)
                 .depth3(depth3)

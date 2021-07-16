@@ -34,7 +34,7 @@ public class UserQueryFactory {
                         userPrivate.password.as("password"),
                         userPrivate.name.as("name"),
                         ExpressionUtils.as(
-                                JPAExpressions.select(system.content)
+                                JPAExpressions.select(system.description)
                                 .from(system)
                                 .where(system.sysCodeId.eq(userPrivate.sex)),
                                 "sex"),

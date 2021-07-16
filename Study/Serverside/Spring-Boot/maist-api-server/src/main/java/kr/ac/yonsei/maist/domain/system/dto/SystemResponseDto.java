@@ -12,8 +12,7 @@ import lombok.NoArgsConstructor;
 public class SystemResponseDto {
     int id;
     String domain;
-    String name;
-    String content;
+    String description;
     int depth1;
     int depth2;
     int depth3;

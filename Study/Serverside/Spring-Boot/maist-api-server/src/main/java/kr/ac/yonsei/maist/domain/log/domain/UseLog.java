@@ -26,9 +26,6 @@ public class UseLog {
     @Column(name = "id_user")
     private int userId;
 
-    @Column(name = "sys_func")
-    private int sysFunc;
-
     @Column(name = "date_log")
     private String logDate;
 
@@ -43,14 +40,12 @@ public class UseLog {
 
     @Builder
     public UseLog(int userId,
-                  int sysFunc,
                   String logDate,
                   String content,
                   String menuId,
                   String ip) {
 
         this.userId = userId;
-        this.sysFunc = sysFunc;
         this.logDate = logDate;
         this.content = content;
         this.menuId = menuId;

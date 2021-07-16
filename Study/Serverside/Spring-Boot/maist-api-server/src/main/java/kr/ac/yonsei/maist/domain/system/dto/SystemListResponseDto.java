@@ -12,8 +12,7 @@ public class SystemListResponseDto {
 
     private int sysCodeId;
     private String domain;
-    private String name;
-    private String content;
+    private String description;
     private String createDate;
     private String editDate;
     private int depth1;
@@ -23,8 +22,7 @@ public class SystemListResponseDto {
     public SystemListResponseDto(System entity) {
         this.sysCodeId = entity.getSysCodeId();
         this.domain = entity.getDomain();
-        this.name = entity.getName();
-        this.content = entity.getContent();
+        this.description = entity.getDescription();
         this.createDate = entity.getCreateDate();
         this.editDate = entity.getEditDate();
         this.depth1 = entity.getDepth1();

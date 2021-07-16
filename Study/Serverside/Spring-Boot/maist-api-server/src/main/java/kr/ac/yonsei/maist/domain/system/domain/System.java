@@ -27,18 +27,8 @@ public class System {
     @Column(name = "var_domain")
     private String domain;
 
-    @Column(name = "var_name")
-    private String name;
-
-    @Column(name = "var_content")
-    private String content;
-
-    @Column(name = "date_create")
-    private String createDate;
-
-    @Column(name = "date_edit")
-    private String editDate;
-
+    @Column(name = "var_description")
+    private String description;
     @Column(name = "int_depth1")
     private int depth1;
 
@@ -48,18 +38,23 @@ public class System {
     @Column(name = "int_depth3")
     private int depth3;
 
+    @Column(name = "date_create")
+    private String createDate;
+
+    @Column(name = "date_edit")
+    private String editDate;
+
+
     @Builder
     public System(int sysCodeId,
                   String domain,
-                  String name,
-                  String content,
+                  String description,
                   int depth1,
                   int depth2,
                   int depth3) {
         this.sysCodeId = sysCodeId;
         this.domain = domain;
-        this.name = name;
-        this.content = content;
+        this.description = description;
         this.depth1 = depth1;
         this.depth2 = depth2;
         this.depth3 = depth3;
@@ -67,8 +62,7 @@ public class System {
 
     public void update(SystemUpdateRequestDto dto) {
         this.domain = dto.getDomain();
-        this.name = dto.getName();
-        this.content = dto.getContent();
+        this.description = dto.getDescription();
         this.depth1 = dto.getDepth1();
         this.depth2 = dto.getDepth2();
         this.depth3 = dto.getDepth3();
