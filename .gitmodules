@@ -1,3 +1,6 @@
 [submodule "systematic-review-automation"]
 	path = systematic-review-automation
 	url = https://github.com/Yonsei-Maist/systematic-review-automation.git
+[submodule "Study/Serverside/Spring-Boot/maist-api-server"]
+	path = Study/Serverside/Spring-Boot/maist-api-server
+	url = https://github.com/Yonsei-Maist/maist-api-server.git
